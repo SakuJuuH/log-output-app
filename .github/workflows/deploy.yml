@@ -14,7 +14,7 @@ env:
   REPOSITORY: my-repository
   BRANCH: ${{ github.ref_name }}
   ARCHITECTURE: linux/amd64
-  PING-PONG_IMAGE_TAG: europe-west4-docker.pkg.dev/${{ secrets.GKE_PROJECT }}/my-repository/ping-pong:${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
+  PING_PONG_IMAGE_TAG: europe-west4-docker.pkg.dev/${{ secrets.GKE_PROJECT }}/my-repository/ping-pong:${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
   LOG_OUTPUT_IMAGE_TAG: europe-west4-docker.pkg.dev/${{ secrets.GKE_PROJECT }}/my-repository/log-output:${{ github.ref_name }}-${{ github.sha }}-${{ github.run_attempt }}
   SKIP_DEPLOY: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
 
