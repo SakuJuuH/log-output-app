@@ -2,5 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: exercises
 resources:
-  - ../log-output/manifests/
-  - ../ping-pong/manifests/
+- ../log-output/manifests/
+- ../ping-pong/manifests/
+images:
+- name: europe-west4-docker.pkg.dev/dauntless-glow-470207-m2/my-repository/log-output
+  newName: europe-west4-docker.pkg.dev/dauntless-glow-470207-m2/my-repository/log-output
+  newTag: main-5efacdc3cf87341975f3230f91c717f735a767c7-1
+- name: europe-west4-docker.pkg.dev/dauntless-glow-470207-m2/my-repository/ping-pong
+  newName: europe-west4-docker.pkg.dev/dauntless-glow-470207-m2/my-repository/ping-pong
+  newTag: main-5efacdc3cf87341975f3230f91c717f735a767c7-1
