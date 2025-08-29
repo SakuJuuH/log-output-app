@@ -75,7 +75,7 @@ jobs:
           platforms: ${{ env.ARCHITECTURE }}
           context: ./ping-pong/
           push: true
-          tags: ${{ env.FRONTEND_IMAGE_TAG }}
+          tags: ${{ env.PING_PONG_IMAGE_TAG }}
 
       - name: Build and Push Log Output Image
         if: ${{ github.event_name == 'push' && env.SKIP_DEPLOY != 'true' }}
@@ -100,7 +100,7 @@ jobs:
           fi
           kubectl create namespace $NAMESPACE || true
           kubectl config set-context --current --namespace=$NAMESPACE
-          kustomize edit set namepsace $NAMESPACE
+          kustomize edit set namespace $NAMESPACE
           kustomize edit set image europe-west4-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/ping-pong=$PING_PONG_IMAGE_TAG
           kustomize edit set image europe-west4-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/log-output=$LOG_OUTPUT_IMAGE_TAG
           kustomize build . | kubectl apply -f -
