@@ -105,7 +105,7 @@ jobs:
           kustomize edit set image europe-west4-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/log-output=$LOG_OUTPUT_IMAGE_TAG
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment log-output -n $NAMESPACE
-          kubectl rollout status deployment postgres-db -n $NAMESPACE
+          kubectl rollout status statefulset postgres-db -n $NAMESPACE
           kubectl get services -o wide -n $NAMESPACE
 
       - name: commit kustomization.yaml to GitHub
