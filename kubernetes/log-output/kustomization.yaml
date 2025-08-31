@@ -4,6 +4,4 @@ namespace: exercises
 resources:
   - deployment.yaml
   - service.yaml
-  - gateway.yaml
-  - log-output-config.yaml
-  - route.yaml
+  - configmap.yaml

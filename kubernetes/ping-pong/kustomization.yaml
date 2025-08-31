@@ -5,6 +5,3 @@ resources:
   - rollout.yaml
   - analysis-template.yaml
   - service.yaml
-  - postgres-config.yaml
-  - postgres-db.yaml
-  - postgres-service.yaml

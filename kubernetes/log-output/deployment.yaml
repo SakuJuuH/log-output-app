@@ -18,10 +18,10 @@ spec:
         app: log-output
     spec:
       nodeSelector:
-        kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
       containers:
         - name: log-output
-          image: sakuheinonen/log-output:4.1.4
+          image: sakuheinonen/log-output:5.3.1
           ports:
             - containerPort: 3030
           resources:
@@ -33,18 +33,29 @@ spec:
               cpu: "100m"
           env:
             - name: PORT
-              value: "3030"
+              valueFrom:
+                configMapKeyRef:
+                  key: PORT
+                  name: log-output-config
             - name: PING_PONG_URL
-              value: "http://ping-pong-svc:3080/"
+              valueFrom:
+                configMapKeyRef:
+                  key: PING_PONG_URL
+                  name: log-output-config
             - name: MESSAGE
               valueFrom:
                 configMapKeyRef:
                   key: MESSAGE
                   name: log-output-config
+            - name: GREETER_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: GREETER_URL
+                  name: log-output-config
           volumeMounts:
-          - name: config-volume
-            mountPath: /usr/src/app/files
-            readOnly: true
+            - name: config-volume
+              mountPath: /usr/src/app/files
+              readOnly: true
 
           readinessProbe:
             exec:
@@ -64,5 +75,3 @@ spec:
             items:
               - key: information.txt
                 path: information.txt
-
-

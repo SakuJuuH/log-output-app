@@ -26,10 +26,12 @@ spec:
         app: ping-pong-app
     spec:
       nodeSelector:
-        kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
       containers:
         - name: ping-pong-app
-          image: sakuheinonen/ping-pong:4.4
+          image: sakuheinonen/ping-pong:5.3.1
+          ports:
+            - containerPort: 3050
           env:
             - name: PORT
               value: "3050"

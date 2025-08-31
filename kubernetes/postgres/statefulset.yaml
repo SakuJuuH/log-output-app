@@ -17,7 +17,7 @@ spec:
         app: postgres-db
     spec:
       nodeSelector:
-        kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
       containers:
         - name: postgres
           image: postgres:15

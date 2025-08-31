@@ -11,31 +11,41 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 type PingPongResp struct {
 	Pongs int64 `json:"pongs"`
 }
 
+type GreetingResp struct {
+	Greeting string `json:"greetings"`
+}
+
 var (
 	port        = os.Getenv("PORT")
 	pingPongURL = os.Getenv("PING_PONG_URL")
 	message     = os.Getenv("MESSAGE")
+	greeterURL  = os.Getenv("GREETER_URL")
 )
 
 var randomString = uuid.New().String()
 
 func main() {
 	if port == "" {
-		port = "3000"
+		log.Fatal().Msg("$PORT must be set")
 	}
 
 	if pingPongURL == "" {
-		pingPongURL = "http://localhost:3001/api"
+		log.Fatal().Msg("$PING_PONG_URL must be set")
 	}
 
 	if message == "" {
-		message = "env variable not set"
+		log.Fatal().Msg("$MESSAGE must be set")
+	}
+
+	if greeterURL == "" {
+		log.Fatal().Msg("$GREETER_URL must be set")
 	}
 
 	fileContent, err := os.ReadFile("/usr/src/app/files/information.txt")
@@ -62,6 +72,13 @@ func main() {
 			return
 		}
 
+		greeting, err := getGreeting()
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		log.Info().Msg(greeting)
+
 		timestamp := time.Now().Format(time.RFC3339)
 
 		c.JSON(http.StatusOK, gin.H{
@@ -69,13 +86,13 @@ func main() {
 			"env variable": fmt.Sprintf("MESSAGE=%s", message),
 			timestamp:      randomString,
 			"Ping / Pongs": count,
+			"Greetings":    greeting,
 		})
 	})
 
 	err = router.Run(":" + port)
 	if err != nil {
-		fmt.Printf("Error starting server: %v\n", err)
-		os.Exit(1)
+		log.Fatal().Err(err).Msg("Failed to start server:")
 	}
 }
 
@@ -109,4 +126,36 @@ func getPingCount() (int64, error) {
 	}
 
 	return pingPongResp.Pongs, nil
+}
+
+func getGreeting() (string, error) {
+	u, err := url.Parse(greeterURL)
+	if err != nil {
+		return "", fmt.Errorf("unable to parse GREETER_URL: %w", err)
+	}
+	u.Path = "/greeter"
+
+	resp, err := http.Get(u.String())
+	if err != nil {
+		return "", fmt.Errorf("unable to get greeting: %w", err)
+	}
+
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("unable to read response body: %w", err)
+	}
+
+	var greetingResp GreetingResp
+
+	if err := json.Unmarshal(body, &greetingResp); err != nil {
+		return "", fmt.Errorf("unable to unmarshal response: %w", err)
+	}
+
+	return greetingResp.Greeting, nil
 }

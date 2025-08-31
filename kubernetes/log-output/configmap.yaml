@@ -7,4 +7,7 @@ data:
   # file format
   information.txt: |-
     this text is from file
+  PORT: "3030"
+  PING_PONG_URL: "http://ping-pong-svc:3080/"
   MESSAGE: "hello world"
+  GREETER_URL: "http://greeter-svc:8080/"
