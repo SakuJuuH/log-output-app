@@ -13,4 +13,4 @@ kubectl apply -k kubernetes/
 ```
 
 > [!NOTE]
-> Currently, the ping pong kustomization file has been set to Serverless mode
+> Currently, the ping pong app is serverless and has not been tested with the broader log-output application, so it might not work.
