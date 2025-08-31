@@ -80,9 +80,9 @@ jobs:
             - name: Build and push images
               if: ${{ github.event_name == 'push' && env.SKIP_DEPLOY != 'true' }}
               run: |-
-                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.ping_pong_image }} --push -f ./ping-pong/ .
-                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.log_output_image }} --push -f ./log-output/ .
-                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.greeter_image }} --push -f ./greeter/ .
+                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.ping_pong_image }} --push -f ./ping-pong/
+                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.log_output_image }} --push -f ./log-output/
+                  docker buildx build --platform ${{ env.ARCHITECTURE }} -t ${{ steps.set_outputs.outputs.greeter_image }} --push -f ./greeter/
             - name: Set up Kustomize
               if: ${{ github.event_name == 'push' && env.SKIP_DEPLOY != 'true' }}
               uses: imranismail/setup-kustomize@v2.1.0
