@@ -14,11 +14,10 @@ kubectl apply -k ../kubernetes
 
 or use the `deploy.sh` script:
 
-App can be accessed in the browser at:
+To access the application, run:
 
 ```shell
-http://localhost:8081/pingpong
+kubectl get ksvc ping-pong-app -o wide
 ``` 
 
-To run the application serverless:
-
+and then access the URL provided.
