@@ -101,7 +101,6 @@ jobs:
                   kustomize edit set image log-output=${{ steps.set_outputs.outputs.log_output_image }}
                   kustomize edit set image greeter=${{ steps.set_outputs.outputs.greeter_image }}
                   kustomize build . | kubectl apply -f -
-                  kubectl rollout status all -n $NAMESPACE
                   kubectl get services -o wide -n $NAMESPACE
 
             - name: commit kustomization.yaml to GitHub
