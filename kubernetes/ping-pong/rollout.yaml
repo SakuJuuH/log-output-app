@@ -33,7 +33,7 @@ spec:
           ports:
             - containerPort: 3050
           env:
-            - name: PORT
+            - name: APP_PORT
               value: "3050"
             - name: POSTGRES_HOST
               valueFrom:

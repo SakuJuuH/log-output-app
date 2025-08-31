@@ -11,3 +11,6 @@ Alternatively, you can deploy it manually:
 ```bash
 kubectl apply -k kubernetes/
 ```
+
+> [!NOTE]
+> Currently, the ping pong kustomization file has been set to Serverless mode

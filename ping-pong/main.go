@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	port   = os.Getenv("PORT")
+	port   = os.Getenv("APP_PORT")
 	dbName = os.Getenv("POSTGRES_DB")
 	dbHost = os.Getenv("POSTGRES_HOST")
 	dbUser = os.Getenv("POSTGRES_USER")
@@ -88,7 +88,8 @@ func getCount() (int64, error) {
 
 func main() {
 	if port == "" {
-		port = "3001"
+		fmt.Println("APP_PORT environment variable not set")
+		os.Exit(1)
 	}
 
 	initDB()
